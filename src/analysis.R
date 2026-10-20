@@ -29,7 +29,9 @@
 # <-, replaces exactly the elements it marks and leaves the names attached. That
 # is the subassignment the constraint is asking for.
 clean_scores_vector <- function(scores) {
-    stop("TODO: implement clean_scores_vector()")
+    returns <- pmin(2 * scores, 20)
+    returns[is.na(scores)] <- 0
+    returns
 }
 
 # clean_scores_scalar(scores)
