@@ -55,8 +55,26 @@ clean_scores_vector <- function(scores) {
 # writes to it. Write each result back with out[[i]] <- value, which keeps the
 # names attached. Accumulating into a fresh vector with out <- c(out, value)
 # drops them, and the check compares with identical(), which notices.
+
 clean_scores_scalar <- function(scores) {
-    stop("TODO: implement clean_scores_scalar()")
+    # pre-allocate output container vector before looping
+    out <- setNames(as.double(scores), names(scores))
+    # for loop act as a scalar index pointer to visit each position
+    for (i in 1:length(scores)) {
+        # test if element is missing
+        # perform conditional subassignment into slot out[i]
+        if (is.na(scores[i])) {
+            out[i] <- 0     # replace NA with 0
+        } else {
+            # subassign doubled value, but cap at 20
+            if (scores[i] * 2 > 20) {
+                out[i] <- 20
+            } else {
+                out[i] <- scores[i] * 2
+            }
+        }
+    }
+    out     # return out
 }
 
 # build_roster(student_names, groups, scores)
