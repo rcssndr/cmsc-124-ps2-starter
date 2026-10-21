@@ -3,159 +3,135 @@
 ## Tracing
 ***
 ### `clean_scores_vector()`
-
 **Input**
 
 ```r
-sample_scores <- c(Ada = 8, Grace = NA_real_, Linus = 12, Barbara = 4)
+sample_scores<-c(Ada=8,Grace=NA_real_,Linus=12,Barbara=4)
 ```
 
-**clean_scores_vector(sample_scores)**
+**`clean_scores_vector(sample_scores)`**
 
 ```r
-scores = c(Ada = 8, Grace = NA, Linus = 12, Barbara = 4)
+scores=c(Ada=8,Grace=NA,Linus=12,Barbara=4)
 ```
 <center>⇓</center>
 
 ```r
-returns <- pmin(2 * scores, 20)
+returns<-pmin(2*scores,20)
 ```
 <center>⇓</center>
 
 ```r
-c(Ada = 16, Grace = NA, Linus = 20, Barbara = 8)
+c(Ada=16,Grace=NA,Linus=20,Barbara=8)
 ```
-
 <center>⇓</center>
 
 ```r
-returns[is.na(scores)] <- 0
+returns[is.na(scores)]<-0
 ```
-
 <center>⇓</center>
 
 ```r
-c(Ada = 16, Grace = 0, Linus = 20, Barbara = 8)
+c(Ada=16,Grace=0,Linus=20,Barbara=8)
 ```
-
 <center>⇓</center>
 
 ```r
 returns
 ```
-
-Output:
+**Output**
 
 ```r
-   Ada  Grace  Linus Barbara
-    16      0     20       8
+  Ada  Grace  Linus Barbara
+   16      0     20       8
 ```
-
 ***
-
 ### `clean_scores_scalar()`
-
 **Input**
-
 ```r
-sample_scores <- c(Ada = 8, Grace = NA_real_, Linus = 12, Barbara = 4)
+sample_scores<-c(Ada=8,Grace=NA_real_,Linus=12,Barbara=4)
 ```
-
 **`clean_scores_scalar(sample_scores)`**
-
 ```r
-scores = c(Ada = 8, Grace = NA, Linus = 12, Barbara = 4)
+scores=c(Ada=8,Grace=NA,Linus=12,Barbara=4)
 ```
-
 <center>⇓</center>
 
 ```r
-out <- setNames(as.double(scores), names(scores))
+out<-setNames(as.double(scores),names(scores))
 ```
-
 <center>⇓</center>
 
 ```r
-c(Ada = 8, Grace = NA, Linus = 12, Barbara = 4)
+c(Ada=8,Grace=NA,Linus=12,Barbara=4)
 ```
-
 <center>⇓</center>
 
 ```r
-for (i in seq_along(scores))
+for(i in seq_along(scores))
 ```
-
 <center>⇓</center>
 
 ```r
-i = 1: Ada
-is.na(scores[[1]])  # FALSE
-scores[[1]] * 2 > 20  # FALSE
-out[[1]] <- min(scores[[1]] * 2)
+i=1:Ada
+is.na(scores[[1]])#FALSE
+scores[[1]]*2>20#FALSE
+out[[1]]<-min(scores[[1]]*2)
 ```
-
 <center>⇓</center>
 
 ```r
-c(Ada = 16, Grace = NA, Linus = 12, Barbara = 4)
+c(Ada=16,Grace=NA,Linus=12,Barbara=4)
 ```
-
 <center>⇓</center>
 
 ```r
-i = 2: Grace
-is.na(scores[[2]])  # TRUE
-out[[2]] <- 0
+i=2:Grace
+is.na(scores[[2]])#TRUE
+out[[2]]<-0
 ```
-
 <center>⇓</center>
 
 ```r
-c(Ada = 16, Grace = 0, Linus = 12, Barbara = 4)
+c(Ada=16,Grace=0,Linus=12,Barbara=4)
 ```
+<center>⇓</center> 
 
+```r
+i=3:Linus
+is.na(scores[[3]])#FALSE
+scores[[3]]*2>20#TRUE
+out[[3]]<-20
+```
 <center>⇓</center>
 
 ```r
-i = 3: Linus
-is.na(scores[[3]])  # FALSE
-scores[[3]] * 2 > 20  # TRUE
-out[[3]] <- 20
+c(Ada=16,Grace=0,Linus=20,Barbara=4)
 ```
-
 <center>⇓</center>
 
 ```r
-c(Ada = 16, Grace = 0, Linus = 20, Barbara = 4)
+i=4:Barbara
+is.na(scores[[4]])#FALSE
+scores[[4]]*2>20#FALSE
+out[[4]]<-min(scores[[4]]*2)
 ```
-
 <center>⇓</center>
 
 ```r
-i = 4: Barbara
-is.na(scores[[4]])  # FALSE
-scores[[4]] * 2 > 20  # FALSE
-out[[4]] <- min(scores[[4]] * 2)
+c(Ada=16,Grace=0,Linus=20,Barbara=8)
 ```
-
-<center>⇓</center>
-
-```r
-c(Ada = 16, Grace = 0, Linus = 20, Barbara = 8)
-```
-
 <center>⇓</center>
 
 ```r
 out
 ```
-
-Output:
-
+**Output**
 ```r
-   Ada  Grace  Linus Barbara
-    16      0     20       8
+  Ada  Grace  Linus Barbara
+   16      0     20       8
 ```
+
 ****
 ## Questions
 ### Which operations in the vector version act on all elements at once?
@@ -163,6 +139,7 @@ Output:
 
 ### Where does the scalar loop make evaluation order visible?
 - In `clean_scores_scalar()`, the for loop with `seq_along(scores)` processes each element sequentially, making the evaluation order visible. The `if (is.na(scores[[i]]))` condition allows step-by-step branching for each element, unlike `clean_scores_vector()`, which processes elements together.
+
 ### Give one concrete input where careless recycling would change the answer.
 - Draft: if adding a short vector to a longer vector with the intention of adding to just the first, say, 2 elements without accounting for the values to recycle to match the longer vector's length.
 
