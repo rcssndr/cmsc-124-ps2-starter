@@ -12,12 +12,17 @@ Atomic vectors get coerced into the same type determined using the ladder. Highe
 ## P02
 Atomic vectors get coerced into the same type determined using the ladder. Highest in presence is character, so all elements in the vector gets coerced into character because of that. The logical `TRUE` is coerced into `"TRUE"`, producing **["1","2","TRUE"]** with `type` **character**, `length` **3**, and `dim` **none**.
 
+Correction: In our predictions table, the vector in value has elements wrapped in extra quotes **[""1"",""2"",""TRUE""]** instead of just **["1","2","TRUE"]** which is why it was reported a failure.
+
 ## P03
 Everything has the same type (integer), no coercion required. The shorter integer vector `c(1L, 2L)` recycles on itself due to element-wise arithmetic a to form `c(1L, 2L, 1L, 2L)`. Adding the two vectors means adding the values in each corresponding position, resulting to **[11,22,31,42]** with storage `type` **integer**, `length` **4**, and **none** for `dim`.
 
+Correction: In our predictions table, the length was 3 instead of 4 which is a typographical error since our initial reasoning had 4 as length that is why it was reported as a failure.
 
 ## P04
 Everything has the same type (integer), no coercion required. Named vectors follow the format **[name1=val1,name2=val2]**, and usage of indices access the element in each index. For this case, integers 3 and 1 extracts only the third and first element in that order, which results to **[third=9,first=8]** with storage `type` **integer**, `length` **2**, and **none** for `dim`.
+
+Correction: In our predictions table, the length was 4 instead of 2, which is a typographical error, likely due to copy-pasting, since our initial reasoning had 2 as length that is why it was reported as a failure.
 
 ## P05
 Everything has the same type (integer), no coercion required. Negative indices exclude the element, and here it specifies position 2 to be excluded from the vector, resulting in **[4,9]** with `type` **integer**, `length` **2**, and `dim` **none**.
