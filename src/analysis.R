@@ -60,17 +60,17 @@ clean_scores_scalar <- function(scores) {
     # pre-allocate output container vector before looping
     out <- setNames(as.double(scores), names(scores))
     # for loop act as a scalar index pointer to visit each position
-    for (i in 1:length(scores)) {
+    for (i in seq_along(scores)) {
         # test if element is missing
         # perform conditional subassignment into slot out[i]
-        if (is.na(scores[i])) {
-            out[i] <- 0     # replace NA with 0
+        if (is.na(scores[[i]])) {
+            out[[i]] <- 0     # replace NA with 0
         } else {
             # subassign doubled value, but cap at 20
-            if (scores[i] * 2 > 20) {
-                out[i] <- 20
+            if (scores[[i]] * 2 > 20) {
+                out[[i]] <- 20
             } else {
-                out[i] <- scores[i] * 2
+                out[[i]] <- min(scores[[i]] * 2)
             }
         }
     }
